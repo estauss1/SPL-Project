@@ -1,14 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 using std::cout; using std::endl;
 
 // change values according to matrices in input file
 // columns_one must equal rows_two
-const int NUMBER_OF_ROWS_ONE = 5;
-const int NUMBER_OF_COLUMNS_ONE = 5;
-const int NUMBER_OF_ROWS_TWO = 5;
-const int NUMBER_OF_COLUMNS_TWO = 5;
+const int NUMBER_OF_ROWS_ONE = 50;
+const int NUMBER_OF_COLUMNS_ONE = 50;
+const int NUMBER_OF_ROWS_TWO = 50;
+const int NUMBER_OF_COLUMNS_TWO = 50;
 
 int main(){
     std::ifstream matrixInput("matrix-input.txt");
@@ -38,13 +39,14 @@ int main(){
             matrixTwo[i][j] = num;
         }
     }
-    // create matrix that gets product of one and two
+    matrixInput.close();
+    // delcare matrix that gets product of one and two
     int** matrixProduct = new int*[NUMBER_OF_ROWS_ONE];
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
         matrixProduct[i] = new int[NUMBER_OF_COLUMNS_TWO];
     }
     // calculate product matrix
-    
+    auto startTime = std::chrono::high_resolution_clock::now();
     int productElement = 0;
     for(int oneRow = 0; oneRow < NUMBER_OF_COLUMNS_ONE; ++oneRow){
         for(int twoColumn = 0; twoColumn < NUMBER_OF_COLUMNS_TWO; ++twoColumn){
@@ -57,8 +59,10 @@ int main(){
             productElement = 0; 
         }
     }
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 
-    // output for debug purposes
+    // output matrices
     cout << "Matrix one:\n";
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
         for(int j = 0; j < NUMBER_OF_COLUMNS_ONE; ++j){
@@ -73,7 +77,11 @@ int main(){
         }
         cout << endl;
     }
-    cout << "Product matrix:\n";
+    // print product and computation time
+    cout << endl << "It took " << duration.count() << " ms to compute/create the\n"
+         << NUMBER_OF_ROWS_ONE << "x" << NUMBER_OF_COLUMNS_TWO 
+         << "product matrix:\n";
+    
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
         for(int j = 0; j < NUMBER_OF_COLUMNS_TWO; ++j){
             cout << matrixProduct[i][j] << "     ";
@@ -81,7 +89,17 @@ int main(){
         cout << endl;
     }
 
-    
-    
-    matrixInput.close();
+    // deallocate matrices
+    for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i)
+        delete [] matrixOne[i];
+    delete [] matrixOne;
+
+    for(int i = 0; i < NUMBER_OF_ROWS_TWO; ++i)
+        delete [] matrixTwo[i];
+    delete [] matrixTwo;
+
+    for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i)
+        delete [] matrixProduct[i];
+    delete [] matrixProduct;
+
 }
