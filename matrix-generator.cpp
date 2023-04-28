@@ -1,3 +1,8 @@
+// Generates matrices with size of global constants and
+// outputs them to file
+// Eric Stauss
+// 4/28/2023
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -6,10 +11,10 @@
 
 using std::string; using std::cout;
 
-const int NUMBER_OF_ROWS_ONE = 50;
-const int NUMBER_OF_COLUMNS_ONE = 50;
-const int NUMBER_OF_ROWS_TWO = 50;
-const int NUMBER_OF_COLUMNS_TWO = 50;
+const int NUMBER_OF_ROWS_ONE = 250;
+const int NUMBER_OF_COLUMNS_ONE = 250;
+const int NUMBER_OF_ROWS_TWO = 250;
+const int NUMBER_OF_COLUMNS_TWO = 250;
 const string OUTPUT_FILE_NAME = "matrix-input.txt";
 
 int main(){

@@ -1,3 +1,8 @@
+// Constructs matrices from input file and measures time it
+// takes to calculate product of matrices
+// Eric Stauss
+// 4/28/2023
+
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -6,10 +11,10 @@ using std::cout; using std::endl;
 
 // change values according to matrices in input file
 // columns_one must equal rows_two
-const int NUMBER_OF_ROWS_ONE = 50;
-const int NUMBER_OF_COLUMNS_ONE = 50;
-const int NUMBER_OF_ROWS_TWO = 50;
-const int NUMBER_OF_COLUMNS_TWO = 50;
+const int NUMBER_OF_ROWS_ONE = 250;
+const int NUMBER_OF_COLUMNS_ONE = 250;
+const int NUMBER_OF_ROWS_TWO = 250;
+const int NUMBER_OF_COLUMNS_TWO = 250;
 
 int main(){
     std::ifstream matrixInput("matrix-input.txt");
@@ -18,7 +23,7 @@ int main(){
         return 1;
     }
     // create and fill matrix one
-    // memory allocation done by programmer unlike javascript*
+    // memory allocation done by programmer unlike javascript
     int** matrixOne = new int*[NUMBER_OF_ROWS_ONE];
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
         matrixOne[i] = new int[NUMBER_OF_COLUMNS_ONE];
@@ -60,8 +65,9 @@ int main(){
         }
     }
     auto endTime = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>
+        (endTime - startTime);
+    /*
     // output matrices
     cout << "Matrix one:\n";
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
@@ -77,19 +83,26 @@ int main(){
         }
         cout << endl;
     }
-    // print product and computation time
+    */
+    
+    // print computation time
     cout << endl << "It took " << duration.count() << " ms to compute/create the\n"
          << NUMBER_OF_ROWS_ONE << "x" << NUMBER_OF_COLUMNS_TWO 
-         << "product matrix:\n";
+         << " product matrix:\n";
     
+    /*
+    // print product matrix to console
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i){
         for(int j = 0; j < NUMBER_OF_COLUMNS_TWO; ++j){
             cout << matrixProduct[i][j] << "     ";
         }
         cout << endl;
     }
+    */
 
     // deallocate matrices
+    // memory management done by programmer explicitly unlike
+    // in javascript
     for(int i = 0; i < NUMBER_OF_ROWS_ONE; ++i)
         delete [] matrixOne[i];
     delete [] matrixOne;
